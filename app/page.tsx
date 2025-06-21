@@ -15,10 +15,14 @@ export default function HomePage() {
     async function fetchProducts() {
       try {
         const response = await fetch("/api/products")
+        if (!response.ok) {
+          throw new Error("Failed to fetch products")
+        }
         const data = await response.json()
         setProducts(data.products || [])
       } catch (error) {
         console.error("Failed to fetch products:", error)
+        setProducts([]) // Set empty array on error
       } finally {
         setLoading(false)
       }
@@ -46,13 +50,13 @@ export default function HomePage() {
           <div className="space-y-6 lg:space-y-8 text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-slate-900 leading-tight">
-                Explore Deesigno's impact on
+                Explore Deesigno&apos;s impact on
                 <br className="hidden sm:block" />
                 <span className="underline decoration-orange-400 decoration-2 sm:decoration-4">your Brand</span>
               </h1>
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
                 Elevate your brand with Deesigno, a dependable solution you can count on. We offer swift and dedicated
-                custom printing services, freeing you to prioritize what's important. Leave the rest to us.
+                custom printing services, freeing you to prioritize what&apos;s important. Leave the rest to us.
               </p>
             </div>
 
@@ -92,7 +96,8 @@ export default function HomePage() {
             ) : (
               <div className="grid grid-cols-2 gap-3 sm:gap-4 transform rotate-1 hover:rotate-0 transition-transform duration-500">
                 {featuredProducts.map((product, index) => {
-                  const rotations = [-2, 2, 1, -1]
+                  const rotations = ["-rotate-2", "rotate-2", "rotate-1", "-rotate-1"]
+                  const marginClasses = index === 1 || index === 3 ? "mt-4 sm:mt-8" : ""
                   return (
                     <ProductShowcaseImage
                       key={product.id}
@@ -100,9 +105,7 @@ export default function HomePage() {
                       alt={product.featuredImage.altText}
                       title={product.title}
                       price={`From $${product.price.toFixed(2)}`}
-                      className={`bg-white rounded-lg shadow-lg p-3 sm:p-4 transform rotate-[${rotations[index]}deg] ${
-                        index === 1 || index === 3 ? "mt-4 sm:mt-8" : ""
-                      }`}
+                      className={`bg-white rounded-lg shadow-lg p-3 sm:p-4 transform ${rotations[index]} ${marginClasses}`}
                     />
                   )
                 })}

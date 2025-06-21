@@ -126,7 +126,10 @@ function AdminContent() {
     const reader = new FileReader()
     reader.onload = async (e) => {
       try {
-        const importedProducts = JSON.parse(e.target?.result as string)
+        const result = e.target?.result
+        if (typeof result !== "string") return
+
+        const importedProducts = JSON.parse(result)
 
         // Create each product via API
         for (const product of importedProducts) {
@@ -230,7 +233,7 @@ function AdminContent() {
                 <div>
                   <label className="block text-sm font-medium mb-2">Product Title</label>
                   <Input
-                    value={newProduct.title}
+                    value={newProduct.title || ""}
                     onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
                     placeholder="Custom T-Shirts"
                   />
@@ -240,8 +243,8 @@ function AdminContent() {
                   <Input
                     type="number"
                     step="0.01"
-                    value={newProduct.price}
-                    onChange={(e) => setNewProduct({ ...newProduct, price: Number.parseFloat(e.target.value) })}
+                    value={newProduct.price || 0}
+                    onChange={(e) => setNewProduct({ ...newProduct, price: Number.parseFloat(e.target.value) || 0 })}
                     placeholder="19.99"
                   />
                 </div>
@@ -249,7 +252,7 @@ function AdminContent() {
               <div>
                 <label className="block text-sm font-medium mb-2">Category</label>
                 <select
-                  value={newProduct.category}
+                  value={newProduct.category || ""}
                   onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                 >
@@ -263,7 +266,7 @@ function AdminContent() {
               <div>
                 <label className="block text-sm font-medium mb-2">Description</label>
                 <Textarea
-                  value={newProduct.description}
+                  value={newProduct.description || ""}
                   onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                   placeholder="High-quality custom printed t-shirts..."
                   rows={3}
@@ -273,7 +276,7 @@ function AdminContent() {
               <div>
                 <label className="block text-sm font-medium mb-2">Product Image</label>
                 <ImageUpload
-                  value={newProduct.featuredImage?.url}
+                  value={newProduct.featuredImage?.url || ""}
                   onChange={(url) =>
                     setNewProduct({
                       ...newProduct,
@@ -293,7 +296,7 @@ function AdminContent() {
                       },
                     })
                   }
-                  altText={newProduct.featuredImage?.altText}
+                  altText={newProduct.featuredImage?.altText || ""}
                 />
               </div>
               <div className="flex flex-col sm:flex-row justify-end gap-2">
@@ -332,7 +335,7 @@ function AdminContent() {
                       step="0.01"
                       value={editingProduct.price}
                       onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, price: Number.parseFloat(e.target.value) })
+                        setEditingProduct({ ...editingProduct, price: Number.parseFloat(e.target.value) || 0 })
                       }
                     />
                   </div>
