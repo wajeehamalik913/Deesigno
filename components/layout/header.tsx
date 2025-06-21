@@ -24,7 +24,9 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-slate-900">
-            Deesigno
+          <img
+                    src={"/logob.png"}
+                  />
           </Link>
 
           {/* Desktop Navigation */}

@@ -23,7 +23,7 @@ export const products: Product[] = [
     handle: "custom-t-shirts",
     description: "High-quality custom printed t-shirts perfect for your brand. Available in various sizes and colors.",
     featuredImage: {
-      url: "/placeholder.svg?height=400&width=400",
+      url: "/boo!.jpg?height=400&width=400",
       altText: "Custom T-Shirt",
     },
     price: 19.99,
