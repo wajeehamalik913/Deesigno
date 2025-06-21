@@ -1,0 +1,159 @@
+<div class="hero-banner">
+  <div class="hero-banner__wrapper page-width">
+    <div class="hero-banner__content">
+      <div class="hero-banner__text">
+        <h1 class="hero-banner__heading h0">
+          {{ section.settings.heading | escape }}
+        </h1>
+        <p class="hero-banner__text rte">
+          {{ section.settings.text }}
+        </p>
+        <div class="hero-banner__buttons">
+          {%- if section.settings.button_label_1 != blank -%}
+            <a class="button button--primary" 
+               {% if section.settings.button_link_1 == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link_1 }}"{% endif %}>
+              {{ section.settings.button_label_1 | escape }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a class="button button--secondary" 
+               {% if section.settings.button_link_2 == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link_2 }}"{% endif %}>
+              {{ section.settings.button_label_2 | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="hero-banner__media">
+        <div class="product-showcase">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'product' -%}
+                {%- assign product = collections[block.settings.collection].products[block.settings.product_index] -%}
+                {%- if product != blank -%}
+                  <div class="product-showcase__item" style="transform: rotate({{ block.settings.rotation }}deg);">
+                    <div class="product-card">
+                      {%- if product.featured_media -%}
+                        <img src="{{ product.featured_media | image_url: width: 200 }}" 
+                             alt="{{ product.featured_media.alt | escape }}"
+                             width="200" height="200">
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {%- endif -%}
+                      <h3 class="product-card__title">{{ product.title }}</h3>
+                      <p class="product-card__price">{{ product.price | money }}</p>
+                    </div>
+                  </div>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Explore Deesigno's impact on your Brand",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Elevate your brand with Deesigno, a dependable solution you can count on. We offer swift and dedicated custom printing services, freeing you to prioritize what's important. Leave the rest to us.</p>",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "default": "View Products",
+      "label": "First button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "First button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Start Custom Order",
+      "label": "Second button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Second button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "product_index",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "default": 0,
+          "label": "Product index in collection"
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "min": -15,
+          "max": 15,
+          "step": 1,
+          "default": 0,
+          "label": "Rotation (degrees)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "rotation": -2
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "rotation": 2
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "rotation": 1
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "rotation": -1
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
