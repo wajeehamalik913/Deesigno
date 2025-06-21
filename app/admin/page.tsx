@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
-import { Trash2, Edit, Plus, Save } from "lucide-react"
+import { Trash2, Edit, Plus, Save, Download, Upload } from "lucide-react"
 import type { Product } from "@/lib/products"
 import { ProtectedAdmin } from "@/components/protected-admin"
 import { productsApi } from "@/lib/api-hooks"
@@ -126,7 +126,10 @@ function AdminContent() {
     const reader = new FileReader()
     reader.onload = async (e) => {
       try {
-        const importedProducts = JSON.parse(e.target?.result as string)
+        const result = e.target?.result
+        if (typeof result !== "string") return
+
+        const importedProducts = JSON.parse(result)
 
         // Create each product via API
         for (const product of importedProducts) {
@@ -147,7 +150,7 @@ function AdminContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading products...</p>
@@ -157,21 +160,25 @@ function AdminContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Product Management</h1>
-          <div className="flex gap-4">
-            <Button onClick={exportProducts} variant="outline">
-              Export Products
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Product Management</h1>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+            <Button onClick={exportProducts} variant="outline" size="sm" className="w-full sm:w-auto">
+              <Download className="mr-2 h-4 w-4" />
+              Export
             </Button>
-            <label className="cursor-pointer">
-              <Button variant="outline" asChild>
-                <span>Import Products</span>
+            <label className="cursor-pointer w-full sm:w-auto">
+              <Button variant="outline" size="sm" asChild className="w-full">
+                <span>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Import
+                </span>
               </Button>
               <input type="file" accept=".json" onChange={importProducts} className="hidden" />
             </label>
-            <Button onClick={() => setIsAddingProduct(true)} className="bg-slate-900">
+            <Button onClick={() => setIsAddingProduct(true)} className="bg-slate-900 w-full sm:w-auto" size="sm">
               <Plus className="mr-2 h-4 w-4" />
               Add Product
             </Button>
@@ -179,23 +186,23 @@ function AdminContent() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {products.map((product) => (
-            <Card key={product.id}>
+            <Card key={product.id} className="overflow-hidden">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-lg">{product.title}</CardTitle>
-                    <Badge variant="secondary" className="mt-1">
+                  <div className="flex-1 min-w-0">
+                    <CardTitle className="text-base sm:text-lg truncate">{product.title}</CardTitle>
+                    <Badge variant="secondary" className="mt-1 text-xs">
                       {product.category}
                     </Badge>
                   </div>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="ghost" onClick={() => handleEditProduct(product)}>
-                      <Edit className="h-4 w-4" />
+                  <div className="flex gap-1 ml-2">
+                    <Button size="sm" variant="ghost" onClick={() => handleEditProduct(product)} className="p-1">
+                      <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
-                    <Button size="sm" variant="ghost" onClick={() => handleDeleteProduct(product.id)}>
-                      <Trash2 className="h-4 w-4 text-red-500" />
+                    <Button size="sm" variant="ghost" onClick={() => handleDeleteProduct(product.id)} className="p-1">
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
                     </Button>
                   </div>
                 </div>
@@ -208,8 +215,8 @@ function AdminContent() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
-                <p className="text-xl font-bold text-slate-900">${product.price.toFixed(2)}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
+                <p className="text-lg sm:text-xl font-bold text-slate-900">${product.price.toFixed(2)}</p>
               </CardContent>
             </Card>
           ))}
@@ -217,16 +224,16 @@ function AdminContent() {
 
         {/* Add Product Dialog */}
         <Dialog open={isAddingProduct} onOpenChange={setIsAddingProduct}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4">
             <DialogHeader>
               <DialogTitle>Add New Product</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">Product Title</label>
                   <Input
-                    value={newProduct.title}
+                    value={newProduct.title || ""}
                     onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
                     placeholder="Custom T-Shirts"
                   />
@@ -236,8 +243,8 @@ function AdminContent() {
                   <Input
                     type="number"
                     step="0.01"
-                    value={newProduct.price}
-                    onChange={(e) => setNewProduct({ ...newProduct, price: Number.parseFloat(e.target.value) })}
+                    value={newProduct.price || 0}
+                    onChange={(e) => setNewProduct({ ...newProduct, price: Number.parseFloat(e.target.value) || 0 })}
                     placeholder="19.99"
                   />
                 </div>
@@ -245,9 +252,9 @@ function AdminContent() {
               <div>
                 <label className="block text-sm font-medium mb-2">Category</label>
                 <select
-                  value={newProduct.category}
+                  value={newProduct.category || ""}
                   onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                 >
                   <option value="">Select category</option>
                   <option value="apparel">Apparel</option>
@@ -259,16 +266,17 @@ function AdminContent() {
               <div>
                 <label className="block text-sm font-medium mb-2">Description</label>
                 <Textarea
-                  value={newProduct.description}
+                  value={newProduct.description || ""}
                   onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                   placeholder="High-quality custom printed t-shirts..."
                   rows={3}
+                  className="text-sm"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Product Image</label>
                 <ImageUpload
-                  value={newProduct.featuredImage?.url}
+                  value={newProduct.featuredImage?.url || ""}
                   onChange={(url) =>
                     setNewProduct({
                       ...newProduct,
@@ -288,14 +296,14 @@ function AdminContent() {
                       },
                     })
                   }
-                  altText={newProduct.featuredImage?.altText}
+                  altText={newProduct.featuredImage?.altText || ""}
                 />
               </div>
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setIsAddingProduct(false)}>
+              <div className="flex flex-col sm:flex-row justify-end gap-2">
+                <Button variant="outline" onClick={() => setIsAddingProduct(false)} className="w-full sm:w-auto">
                   Cancel
                 </Button>
-                <Button onClick={handleAddProduct} className="bg-slate-900">
+                <Button onClick={handleAddProduct} className="bg-slate-900 w-full sm:w-auto">
                   <Save className="mr-2 h-4 w-4" />
                   Add Product
                 </Button>
@@ -306,13 +314,13 @@ function AdminContent() {
 
         {/* Edit Product Dialog */}
         <Dialog open={!!editingProduct} onOpenChange={() => setEditingProduct(null)}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4">
             <DialogHeader>
               <DialogTitle>Edit Product</DialogTitle>
             </DialogHeader>
             {editingProduct && (
               <div className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">Product Title</label>
                     <Input
@@ -327,7 +335,7 @@ function AdminContent() {
                       step="0.01"
                       value={editingProduct.price}
                       onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, price: Number.parseFloat(e.target.value) })
+                        setEditingProduct({ ...editingProduct, price: Number.parseFloat(e.target.value) || 0 })
                       }
                     />
                   </div>
@@ -337,7 +345,7 @@ function AdminContent() {
                   <select
                     value={editingProduct.category}
                     onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                   >
                     <option value="apparel">Apparel</option>
                     <option value="drinkware">Drinkware</option>
@@ -351,6 +359,7 @@ function AdminContent() {
                     value={editingProduct.description}
                     onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
                     rows={3}
+                    className="text-sm"
                   />
                 </div>
                 <div>
@@ -372,11 +381,11 @@ function AdminContent() {
                     altText={editingProduct.featuredImage.altText}
                   />
                 </div>
-                <div className="flex justify-end gap-2">
-                  <Button variant="outline" onClick={() => setEditingProduct(null)}>
+                <div className="flex flex-col sm:flex-row justify-end gap-2">
+                  <Button variant="outline" onClick={() => setEditingProduct(null)} className="w-full sm:w-auto">
                     Cancel
                   </Button>
-                  <Button onClick={handleUpdateProduct} className="bg-slate-900">
+                  <Button onClick={handleUpdateProduct} className="bg-slate-900 w-full sm:w-auto">
                     <Save className="mr-2 h-4 w-4" />
                     Update Product
                   </Button>
