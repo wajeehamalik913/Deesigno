@@ -65,5 +65,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       message: "Product deleted successfully",
     })
   }
-  \
+  catch(error){
+    
+  }
 }
