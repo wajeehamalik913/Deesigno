@@ -1,124 +1,43 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, Search, User } from "lucide-react"
-import { CartDrawer } from "@/components/cart-drawer"
-import { ProductGrid } from "@/components/product-grid"
+import { Mail, Phone } from "lucide-react"
 import { ProductShowcaseImage } from "@/components/product-showcase-image"
-import { shopifyFetch, getProductsQuery } from "@/lib/shopify"
-import type { ShopifyProduct } from "@/lib/types"
+import type { Product } from "@/lib/products"
 
-async function getFeaturedProducts() {
-  try {
-    const { body } = await shopifyFetch<{ products: { edges: Array<{ node: ShopifyProduct }> } }>({
-      query: getProductsQuery,
-      variables: { first: 8 },
-      cache: "force-cache",
-    })
+export default function HomePage() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
 
-    return body.products.edges.map((edge) => edge.node)
-  } catch (error) {
-    console.error("Error fetching products:", error)
-    return []
-  }
-}
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch("/api/products")
+        const data = await response.json()
+        setProducts(data.products || [])
+      } catch (error) {
+        console.error("Failed to fetch products:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-export default async function HomePage() {
-  const featuredProducts = await getFeaturedProducts()
+    fetchProducts()
+  }, [])
 
-  // Sample products for when Shopify products aren't available
-  const sampleProducts = [
-    {
-      id: "sample-1",
-      title: "Custom T-Shirts",
-      handle: "custom-t-shirts",
-      featuredImage: { url: "/placeholder.svg?height=200&width=200", altText: "Custom T-Shirt" },
-      priceRange: { minVariantPrice: { amount: "19.99" } },
-    },
-    {
-      id: "sample-2",
-      title: "Custom Hoodies",
-      handle: "custom-hoodies",
-      featuredImage: { url: "/placeholder.svg?height=200&width=200", altText: "Custom Hoodie" },
-      priceRange: { minVariantPrice: { amount: "39.99" } },
-    },
-    {
-      id: "sample-3",
-      title: "Water Bottles",
-      handle: "water-bottles",
-      featuredImage: { url: "/placeholder.svg?height=200&width=200", altText: "Water Bottle" },
-      priceRange: { minVariantPrice: { amount: "24.99" } },
-    },
-    {
-      id: "sample-4",
-      title: "Custom Mugs",
-      handle: "custom-mugs",
-      featuredImage: { url: "/placeholder.svg?height=200&width=200", altText: "Custom Mug" },
-      priceRange: { minVariantPrice: { amount: "14.99" } },
-    },
-  ]
-
-  // Use sample products if no real products are available
-  const displayProducts = featuredProducts.length > 0 ? featuredProducts : sampleProducts
+  const featuredProducts = products.slice(0, 4)
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Banner */}
       <div className="bg-slate-900 text-white py-2 px-4 text-center text-sm">
         <span className="font-medium">Deesigno</span> - Custom merchandise made easy. Free shipping on orders over $50!
-        <Link href="/products" className="text-orange-400 hover:text-orange-300 ml-2 font-semibold">
-          Order now
+        <Link href="/contact" className="text-orange-400 hover:text-orange-300 ml-2 font-semibold">
+          Get Quote
         </Link>
       </div>
-
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/" className="text-2xl font-bold text-slate-900">
-                Deesigno
-              </Link>
-            </div>
-
-            {/* Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-slate-900 font-medium">
-                Home
-              </Link>
-              <Link href="/products" className="text-gray-700 hover:text-slate-900 font-medium">
-                Products
-              </Link>
-              <Link href="/custom-design" className="text-gray-700 hover:text-slate-900 font-medium">
-                Custom Design
-              </Link>
-              <Link href="/about" className="text-gray-700 hover:text-slate-900 font-medium">
-                About
-              </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-slate-900 font-medium">
-                Contact
-              </Link>
-            </nav>
-
-            {/* Right side icons */}
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="hidden sm:flex">
-                <Search className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm" className="hidden sm:flex">
-                <User className="h-4 w-4" />
-              </Button>
-              <CartDrawer />
-              <Link href="/custom-design">
-                <Button className="bg-slate-900 hover:bg-slate-800 text-white px-6">Start Designing</Button>
-              </Link>
-              <Button variant="ghost" size="sm" className="md:hidden">
-                <Menu className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
@@ -143,13 +62,13 @@ export default async function HomePage() {
                   View Products
                 </Button>
               </Link>
-              <Link href="/custom-design">
+              <Link href="/contact">
                 <Button
                   size="lg"
                   variant="outline"
                   className="border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white px-8 py-3"
                 >
-                  Start Custom Order
+                  Get Custom Quote
                 </Button>
               </Link>
             </div>
@@ -157,36 +76,33 @@ export default async function HomePage() {
 
           {/* Right Content - Product Showcase */}
           <div className="relative">
-            <div className="grid grid-cols-2 gap-4 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-              {displayProducts.length > 0 ? (
-                displayProducts.slice(0, 4).map((product, index) => {
+            {loading ? (
+              <div className="grid grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="bg-white rounded-lg shadow-lg p-4 animate-pulse">
+                    <div className="aspect-square bg-gray-200 rounded mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-4 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                {featuredProducts.map((product, index) => {
                   const rotations = [-2, 2, 1, -1]
                   return (
                     <ProductShowcaseImage
                       key={product.id}
-                      src={product.featuredImage?.url || "/placeholder.svg?height=200&width=200"}
-                      alt={product.featuredImage?.altText || product.title}
+                      src={product.featuredImage.url}
+                      alt={product.featuredImage.altText}
                       title={product.title}
-                      price={`From $${Number.parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}`}
+                      price={`From $${product.price.toFixed(2)}`}
                       className={`bg-white rounded-lg shadow-lg p-4 transform rotate-[${rotations[index]}deg] ${index === 1 || index === 3 ? "mt-8" : ""}`}
                     />
                   )
-                })
-              ) : (
-                // Fallback when no products are found
-                <>
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="bg-white rounded-lg shadow-lg p-4">
-                      <div className="w-full h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center">
-                        <span className="text-gray-500">No Image</span>
-                      </div>
-                      <h3 className="font-semibold text-sm">Sample Product {i}</h3>
-                      <p className="text-xs text-gray-500">From $19.99</p>
-                    </div>
-                  ))}
-                </>
-              )}
-            </div>
+                })}
+              </div>
+            )}
 
             {/* Floating elements */}
             <div className="absolute -top-4 -right-4 bg-orange-400 text-white px-3 py-1 rounded-full text-sm font-semibold transform rotate-12">
@@ -203,36 +119,61 @@ export default async function HomePage() {
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Featured Products</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Our Products</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Discover our most popular custom merchandise options, perfect for your brand.
+              Discover our range of custom merchandise options, perfect for your brand.
             </p>
           </div>
 
-          {featuredProducts.length > 0 ? (
-            <ProductGrid products={featuredProducts} />
-          ) : (
-            <div className="text-center py-12">
-              <div className="bg-gray-100 rounded-lg p-8">
-                <h3 className="text-lg font-semibold text-gray-700 mb-2">No Products Found</h3>
-                <p className="text-gray-500 mb-4">Connect your Shopify store to display your products here.</p>
-                <div className="text-sm text-gray-400">
-                  <p>1. Add products to your Shopify store</p>
-                  <p>2. Verify your environment variables</p>
-                  <p>3. Check your Shopify API connection</p>
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+                  <div className="aspect-square bg-gray-200"></div>
+                  <div className="p-6">
+                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-4"></div>
+                    <div className="flex justify-between items-center">
+                      <div className="h-6 bg-gray-200 rounded w-20"></div>
+                      <div className="h-8 bg-gray-200 rounded w-16"></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <div className="aspect-square bg-gray-100 flex items-center justify-center">
+                    <img
+                      src={product.featuredImage.url || "/placeholder.svg"}
+                      alt={product.featuredImage.altText}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-slate-900 mb-2">{product.title}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-bold text-slate-900">From ${product.price.toFixed(2)}</span>
+                      <Link href="/contact">
+                        <Button size="sm">Get Quote</Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
           <div className="text-center mt-12">
-            <Link href="/products">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white"
-              >
-                View All Products
+            <Link href="/contact">
+              <Button size="lg" className="bg-slate-900 hover:bg-slate-800 text-white">
+                Request Custom Quote
               </Button>
             </Link>
           </div>
@@ -283,116 +224,31 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Contact CTA Section */}
       <section className="bg-slate-900 text-white py-16">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to bring your ideas to life?</h2>
-          <p className="text-xl text-gray-300 mb-8">
-            Start creating custom merchandise that represents your brand perfectly.
-          </p>
+          <p className="text-xl text-gray-300 mb-8">Contact us today for a custom quote on your merchandise needs.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/custom-design">
+            <Link href="/contact">
               <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3">
-                Start Your Design
+                <Mail className="mr-2 h-5 w-5" />
+                Get Quote
               </Button>
             </Link>
-            <Link href="/products">
+            <Link href="tel:+15551234567">
               <Button
                 size="lg"
                 variant="outline"
                 className="border-white text-white hover:bg-white hover:text-slate-900 px-8 py-3"
               >
-                Browse Products
+                <Phone className="mr-2 h-5 w-5" />
+                Call Us
               </Button>
             </Link>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-100 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Deesigno</h3>
-              <p className="text-gray-600 text-sm">Your trusted partner for custom merchandise and branded products.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-900 mb-4">Products</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/products/t-shirts" className="hover:text-slate-900">
-                    T-Shirts
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/products/hoodies" className="hover:text-slate-900">
-                    Hoodies
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/products/bottles" className="hover:text-slate-900">
-                    Water Bottles
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/products/mugs" className="hover:text-slate-900">
-                    Mugs
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-900 mb-4">Services</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/custom-design" className="hover:text-slate-900">
-                    Custom Design
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/bulk-orders" className="hover:text-slate-900">
-                    Bulk Orders
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/rush-orders" className="hover:text-slate-900">
-                    Rush Orders
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-slate-900 mb-4">Support</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/contact" className="hover:text-slate-900">
-                    Contact Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/size-guide" className="hover:text-slate-900">
-                    Size Guide
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/shipping" className="hover:text-slate-900">
-                    Shipping Info
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/returns" className="hover:text-slate-900">
-                    Returns
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-200 mt-8 pt-8 text-center text-sm text-gray-600">
-            <p>&copy; 2024 Deesigno. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

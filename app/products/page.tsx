@@ -1,43 +1,59 @@
-import { shopifyFetch, getProductsQuery } from "@/lib/shopify"
-import type { ShopifyProduct } from "@/lib/types"
-import { ProductGrid } from "@/components/product-grid"
+"use client"
 
-async function getAllProducts() {
-  try {
-    const { body } = await shopifyFetch<{ products: { edges: Array<{ node: ShopifyProduct }> } }>({
-      query: getProductsQuery,
-      variables: { first: 50 },
-      cache: "force-cache",
-    })
+import type React from "react"
 
-    return body.products.edges.map((edge) => edge.node)
-  } catch (error) {
-    console.error("Error fetching products:", error)
-    return []
+import { useState, useEffect } from "react"
+import { productsApi } from "@/lib/api-hooks"
+
+const ProductsPage = () => {
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [selectedCategory, setSelectedCategory] = useState("")
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true)
+        const fetchedProducts = await productsApi.getAll(selectedCategory)
+        setProducts(fetchedProducts)
+      } catch (error) {
+        console.error("Error loading products:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [selectedCategory])
+
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(event.target.value)
   }
-}
-
-export default async function ProductsPage() {
-  const products = await getAllProducts()
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">Our Products</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our complete range of customizable merchandise perfect for your brand.
-          </p>
-        </div>
+    <div>
+      <h1>Products</h1>
 
-        {products.length > 0 ? (
-          <ProductGrid products={products} />
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No products found. Please check your Shopify configuration.</p>
-          </div>
-        )}
-      </div>
+      <select value={selectedCategory} onChange={handleCategoryChange}>
+        <option value="">All Categories</option>
+        <option value="electronics">Electronics</option>
+        <option value="clothing">Clothing</option>
+        <option value="books">Books</option>
+      </select>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul>
+          {products.map((product) => (
+            <li key={product.id}>
+              {product.title} - {product.price}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
+
+export default ProductsPage
