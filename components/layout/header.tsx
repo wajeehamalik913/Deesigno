@@ -42,7 +42,7 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
-            <Link
+            {/* <Link
               href="/admin"
               className={`font-medium transition-colors text-sm xl:text-base ${
                 pathname === "/admin"
@@ -51,7 +51,7 @@ export function Header() {
               }`}
             >
               Admin
-            </Link>
+            </Link> */}
           </nav>
 
           {/* CTA Button & Mobile Menu */}
