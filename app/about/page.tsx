@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export const metadata = {
   title: "About Us",
-  description: "Learn about Deesigno's mission to provide high-quality custom merchandise solutions.",
+  description: "Learn about Deesigno's journey from streetwear brand to custom printing specialists.",
 }
 
 export default function AboutPage() {
@@ -13,9 +13,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">About Deesigno</h1>
-          <p className="text-xl text-gray-600">
-            Your trusted partner for custom merchandise and branded products since 2020.
-          </p>
+          <p className="text-xl text-gray-600">Where fashion meets creativity - your style, amplified since 2020.</p>
         </div>
 
         <div className="space-y-12">
@@ -23,14 +21,14 @@ export default function AboutPage() {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Story</h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Founded in 2020, Deesigno emerged from a simple idea: custom merchandise should be accessible,
-                affordable, and exceptional in quality. What started as a small printing operation has grown into a
-                trusted partner for businesses, organizations, and individuals looking to make their mark.
+                Deesigno started as a passion project in 2020 - a small clothing brand with big dreams. What began as
+                designing trendy streetwear quickly evolved when we realized our customers wanted more than just
+                off-the-rack pieces. They wanted to express their individuality.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                We believe that every brand deserves to stand out, and every design deserves to be brought to life with
-                precision and care. That's why we've invested in state-of-the-art printing technology and built a team
-                of passionate professionals who share our commitment to excellence.
+                Today, we&apos;re both a fashion-forward clothing brand and a custom printing specialist. Whether
+                you&apos;re looking for the latest trends or want to create something uniquely yours, we&apos;ve got you
+                covered. From our curated collections to personalized designs, every piece tells a story.
               </p>
             </CardContent>
           </Card>
@@ -40,9 +38,9 @@ export default function AboutPage() {
               <CardContent className="p-8">
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Our Mission</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  To empower brands and individuals by transforming their creative visions into high-quality, tangible
-                  products that make lasting impressions. We're committed to delivering exceptional custom merchandise
-                  that exceeds expectations.
+                  To democratize fashion and self-expression. We believe everyone deserves to wear their personality,
+                  whether that&apos;s through our carefully curated collections or custom designs that bring your vision
+                  to life.
                 </p>
               </CardContent>
             </Card>
@@ -52,16 +50,16 @@ export default function AboutPage() {
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Our Values</h3>
                 <ul className="text-gray-600 space-y-2">
                   <li>
-                    • <strong>Quality First:</strong> Every product meets our high standards
+                    • <strong>Creativity First:</strong> Every design tells a story
                   </li>
                   <li>
-                    • <strong>Customer Focus:</strong> Your success is our priority
+                    • <strong>Quality Always:</strong> Premium materials and craftsmanship
                   </li>
                   <li>
-                    • <strong>Innovation:</strong> We embrace new technologies and methods
+                    • <strong>Individual Expression:</strong> Your style, your way
                   </li>
                   <li>
-                    • <strong>Reliability:</strong> Consistent delivery on time, every time
+                    • <strong>Community Driven:</strong> Built by and for creatives
                   </li>
                 </ul>
               </CardContent>
@@ -70,45 +68,56 @@ export default function AboutPage() {
 
           <Card>
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6">Why Choose Deesigno?</h2>
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">What Makes Us Different?</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">🏆</span>
+                    <span className="text-2xl">👕</span>
                   </div>
-                  <h4 className="font-semibold mb-2">Premium Quality</h4>
+                  <h4 className="font-semibold mb-2">Curated Collections</h4>
                   <p className="text-sm text-gray-600">
-                    We use only the finest materials and latest printing techniques
+                    Hand-picked designs that blend current trends with timeless style
                   </p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl">🎨</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Custom Everything</h4>
+                  <p className="text-sm text-gray-600">From personal designs to bulk orders - we print it all</p>
                 </div>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl">⚡</span>
                   </div>
-                  <h4 className="font-semibold mb-2">Fast Turnaround</h4>
-                  <p className="text-sm text-gray-600">Most orders completed within 3-5 business days</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">💡</span>
-                  </div>
-                  <h4 className="font-semibold mb-2">Expert Support</h4>
-                  <p className="text-sm text-gray-600">Our design team helps bring your vision to life</p>
+                  <h4 className="font-semibold mb-2">Fast & Reliable</h4>
+                  <p className="text-sm text-gray-600">Quick turnaround without compromising on quality</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">Ready to Get Started?</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Ready to Express Yourself?</h2>
             <p className="text-gray-600 mb-6">
-              Let's discuss your custom merchandise needs and create something amazing together.
+              Browse our collections or create something custom. Your style journey starts here.
             </p>
-            <Link href="/contact">
-              <Button size="lg" className="bg-slate-900 hover:bg-slate-800">
-                Get Your Quote Today
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/products">
+                <Button size="lg" className="bg-slate-900 hover:bg-slate-800">
+                  Shop Collection
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white"
+                >
+                  Start Custom Order
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
