@@ -88,7 +88,7 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
-              {/* <Link
+              <Link
                 href="/admin"
                 className={`font-medium transition-colors px-2 py-1 ${
                   pathname === "/admin" ? "text-slate-900 bg-gray-100 rounded" : "text-gray-700"
@@ -96,7 +96,7 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Admin
-              </Link> */}
+              </Link>
               <div className="pt-2 border-t border-gray-200">
                 <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
                   <Button className="bg-slate-900 hover:bg-slate-800 text-white w-full">Get Quote</Button>
