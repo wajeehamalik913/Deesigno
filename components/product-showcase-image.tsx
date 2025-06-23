@@ -21,16 +21,22 @@ export function ProductShowcaseImage({ src, alt, title, price, className }: Prod
 
   return (
     <div className={className}>
-      <Image
-        src={imageSrc || "/placeholder.svg"}
-        alt={alt}
-        width={200}
-        height={200}
-        className="w-full h-40 object-cover rounded-md mb-3"
-        onError={handleImageError}
-      />
-      <h3 className="font-semibold text-sm">{title}</h3>
-      <p className="text-xs text-gray-500">{price}</p>
+      <div className="relative overflow-hidden rounded-md mb-3">
+        <Image
+          src={imageSrc || "/placeholder.svg"}
+          alt={alt}
+          width={400}
+          height={300}
+          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+          onError={handleImageError}
+        />
+      </div>
+      {title && (
+        <>
+          <h3 className="font-semibold text-sm mb-1">{title}</h3>
+          {price && <p className="text-sm font-bold text-slate-900">{price}</p>}
+        </>
+      )}
     </div>
   )
 }

@@ -15,7 +15,7 @@ export interface Product {
   }
 }
 
-// This will be the fallback/default products
+// This will be the fallback/default products with AED pricing
 export const products: Product[] = [
   {
     id: "boo-tshirt",
@@ -27,7 +27,7 @@ export const products: Product[] = [
       url: "/boo!.jpg?height=400&width=400",
       altText: "Boo! Graphic T-Shirt",
     },
-    price: 29.99,
+    price: 110.0, // AED 110.00
     category: "apparel",
     variants: {
       size: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -44,7 +44,7 @@ export const products: Product[] = [
       url: "/placeholder.svg?height=400&width=400",
       altText: "Essential Hoodie",
     },
-    price: 49.99,
+    price: 185.0, // AED 185.00
     category: "apparel",
     variants: {
       size: ["S", "M", "L", "XL", "XXL"],
@@ -61,7 +61,7 @@ export const products: Product[] = [
       url: "/placeholder.svg?height=400&width=400",
       altText: "Streetwear Joggers",
     },
-    price: 39.99,
+    price: 145.0, // AED 145.00
     category: "apparel",
     variants: {
       size: ["S", "M", "L", "XL", "XXL"],
@@ -78,7 +78,7 @@ export const products: Product[] = [
       url: "/placeholder.svg?height=400&width=400",
       altText: "Custom Snapback Cap",
     },
-    price: 24.99,
+    price: 90.0, // AED 90.00
     category: "accessories",
     variants: {
       color: ["Black", "White", "Navy", "Gray", "Red"],
@@ -94,7 +94,7 @@ export const products: Product[] = [
       url: "/placeholder.svg?height=400&width=400",
       altText: "Oversized Tee",
     },
-    price: 34.99,
+    price: 125.0, // AED 125.00
     category: "apparel",
     variants: {
       size: ["S", "M", "L", "XL", "XXL"],
@@ -111,7 +111,7 @@ export const products: Product[] = [
       url: "/placeholder.svg?height=400&width=400",
       altText: "Canvas Tote Bag",
     },
-    price: 19.99,
+    price: 75.0, // AED 75.00
     category: "accessories",
     variants: {
       color: ["Natural", "Black", "Navy", "Forest Green"],
@@ -142,4 +142,9 @@ export function getProduct(handle: string): Product | undefined {
 export function getProductsByCategory(category: string): Product[] {
   const allProducts = getProducts()
   return allProducts.filter((product) => product.category === category)
+}
+
+// Helper function to format price with AED
+export function formatPrice(price: number): string {
+  return `AED ${price.toFixed(2)}`
 }

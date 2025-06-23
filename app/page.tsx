@@ -38,7 +38,7 @@ export default function HomePage() {
       {/* Top Banner */}
       <div className="bg-slate-900 text-white py-2 px-4 text-center text-xs sm:text-sm">
         <span className="font-medium">Deesigno</span> - Premium clothing & custom prints. Free shipping on orders over
-        $75!
+        AED 275!
         <Link href="/contact" className="text-orange-400 hover:text-orange-300 ml-2 font-semibold">
           Shop Now
         </Link>
@@ -105,7 +105,7 @@ export default function HomePage() {
                       src={product.featuredImage.url}
                       alt={product.featuredImage.altText}
                       title={product.title}
-                      price={`$${product.price.toFixed(2)}`}
+                      price={`AED ${product.price.toFixed(2)}`}
                       className={`bg-white rounded-lg shadow-lg p-3 sm:p-4 transform ${rotations[index]} ${marginClasses}`}
                     />
                   )
@@ -168,7 +168,9 @@ export default function HomePage() {
                     <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">{product.title}</h3>
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xl sm:text-2xl font-bold text-slate-900">${product.price.toFixed(2)}</span>
+                      <span className="text-xl sm:text-2xl font-bold text-slate-900">
+                        AED {product.price.toFixed(2)}
+                      </span>
                       <div className="flex gap-2">
                         <Link href="/products">
                           <Button size="sm" variant="outline" className="text-xs sm:text-sm">
