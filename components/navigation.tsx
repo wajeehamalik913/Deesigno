@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Home, Package, Mail, Settings } from "lucide-react"
+import { Home, Package, Mail } from "lucide-react"
 
 export function Navigation() {
   return (
@@ -33,13 +33,6 @@ export function Navigation() {
             >
               <Mail size={16} />
               Contact
-            </Link>
-            <Link
-              href="/admin"
-              className="flex items-center gap-2 text-gray-700 hover:text-slate-900 font-medium transition-colors"
-            >
-              <Settings size={16} />
-              Admin
             </Link>
           </nav>
           <Link href="/contact">
