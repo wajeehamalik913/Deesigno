@@ -27,7 +27,7 @@ export const products: Product[] = [
       url: "/boo!.jpg?height=400&width=400",
       altText: "Boo! Graphic T-Shirt",
     },
-    price: 110.0, // AED 110.00
+    price: 45.0, // AED 110.00
     category: "apparel",
     variants: {
       size: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -35,70 +35,19 @@ export const products: Product[] = [
     },
   },
   {
-    id: "essential-hoodie",
-    title: "Essential Hoodie",
-    handle: "essential-hoodie",
-    description:
-      "Your new go-to hoodie. Soft fleece interior, relaxed fit, and available for custom printing. Comfort meets style.",
-    featuredImage: {
-      url: "/placeholder.svg?height=400&width=400",
-      altText: "Essential Hoodie",
-    },
-    price: 185.0, // AED 185.00
-    category: "apparel",
-    variants: {
-      size: ["S", "M", "L", "XL", "XXL"],
-      color: ["Black", "Gray", "Navy", "Cream", "Forest Green"],
-    },
-  },
-  {
-    id: "streetwear-joggers",
-    title: "Streetwear Joggers",
-    handle: "streetwear-joggers",
-    description:
-      "Comfortable joggers with a modern fit. Perfect for lounging or street styling. Customize with your own design.",
-    featuredImage: {
-      url: "/placeholder.svg?height=400&width=400",
-      altText: "Streetwear Joggers",
-    },
-    price: 145.0, // AED 145.00
-    category: "apparel",
-    variants: {
-      size: ["S", "M", "L", "XL", "XXL"],
-      color: ["Black", "Gray", "Navy", "Olive"],
-    },
-  },
-  {
-    id: "custom-cap",
-    title: "Custom Snapback Cap",
-    handle: "custom-snapback-cap",
+    id: "custom-cup",
+    title: "Custom Snapback Cup",
+    handle: "custom-snapback-cup",
     description:
       "Classic snapback design ready for your custom embroidery or print. Premium materials, adjustable fit.",
     featuredImage: {
-      url: "/placeholder.svg?height=400&width=400",
+      url: "/cup1.png?height=400&width=400",
       altText: "Custom Snapback Cap",
     },
-    price: 90.0, // AED 90.00
+    price: 55.0, // AED 90.00
     category: "accessories",
     variants: {
       color: ["Black", "White", "Navy", "Gray", "Red"],
-    },
-  },
-  {
-    id: "oversized-tee",
-    title: "Oversized Tee",
-    handle: "oversized-tee",
-    description:
-      "Trendy oversized fit tee. Perfect canvas for custom designs or wear as-is for that effortless street style look.",
-    featuredImage: {
-      url: "/placeholder.svg?height=400&width=400",
-      altText: "Oversized Tee",
-    },
-    price: 125.0, // AED 125.00
-    category: "apparel",
-    variants: {
-      size: ["S", "M", "L", "XL", "XXL"],
-      color: ["Black", "White", "Beige", "Sage Green", "Dusty Pink"],
     },
   },
   {
@@ -108,15 +57,70 @@ export const products: Product[] = [
     description:
       "Eco-friendly canvas tote perfect for daily use. Great for custom printing - ideal for brands, events, or personal use.",
     featuredImage: {
-      url: "/placeholder.svg?height=400&width=400",
+      url: "/totebag1.png?height=400&width=400",
       altText: "Canvas Tote Bag",
     },
-    price: 75.0, // AED 75.00
+    price: 65.0, // AED 75.00
     category: "accessories",
     variants: {
       color: ["Natural", "Black", "Navy", "Forest Green"],
     },
   },
+
+  {
+    id: "essential-hoodie",
+    title: "Essential Hoodie",
+    handle: "essential-hoodie",
+    description:
+      "Your new go-to hoodie. Soft fleece interior, relaxed fit, and available for custom printing. Comfort meets style.",
+    featuredImage: {
+      url: "/hoodie2.png?height=400&width=400",
+      altText: "Essential Hoodie",
+    },
+    price: 85.0, // AED 185.00
+    category: "apparel",
+    variants: {
+      size: ["S", "M", "L", "XL", "XXL"],
+      color: ["Black", "Gray", "Navy", "Cream", "Forest Green"],
+    },
+  },
+  {
+    id: "custom-bottles",
+    title: "Custom bottles",
+    handle: "custom-bottles",
+    description:
+      "Perfect for gym or college or street styling. Customize with your own design.",
+    featuredImage: {
+      url: "/bottle1.png?height=400&width=400",
+      altText: "custome bottles",
+    },
+    price: 55.0, // AED 145.00
+    category: "apparel",
+    variants: {
+      size: ["S", "M", "L", "XL", "XXL"],
+      color: ["Black", "Gray", "Navy", "Olive"],
+    },
+  },
+
+
+  // {
+  //   id: "oversized-tee",
+  //   title: "Oversized Tee",
+  //   handle: "oversized-tee",
+  //   description:
+  //     "Trendy oversized fit tee. Perfect canvas for custom designs or wear as-is for that effortless street style look.",
+  //   featuredImage: {
+  //     url: "/placeholder.svg?height=400&width=400",
+  //     altText: "Oversized Tee",
+  //   },
+  //   price: 125.0, // AED 125.00
+  //   category: "apparel",
+  //   variants: {
+  //     size: ["S", "M", "L", "XL", "XXL"],
+  //     color: ["Black", "White", "Beige", "Sage Green", "Dusty Pink"],
+  //   },
+  // },
+
 ]
 
 // Function to get products from localStorage or fallback to default

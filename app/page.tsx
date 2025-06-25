@@ -38,7 +38,7 @@ export default function HomePage() {
       {/* Top Banner */}
       <div className="bg-slate-900 text-white py-2 px-4 text-center text-xs sm:text-sm">
         <span className="font-medium">Deesigno</span> - Premium clothing & custom prints. Free shipping on orders over
-        AED 275!
+        AED 150!
         <Link href="/contact" className="text-orange-400 hover:text-orange-300 ml-2 font-semibold">
           Shop Now
         </Link>
